@@ -107,8 +107,11 @@ class App extends Component {
         return(
             <div>
                 <SearchBar songs={this.state.songs} filterUpdate={this.filterUpdate}/>
-            
+                <br />
+                <br />
                 <MusicTable songs={this.state.songs} deleteSongs={this.deleteSong}/>
+                <br />
+                <br />
                 <SongCreator newSong={this.newSong.bind(this)}/>
             </div>
         );
