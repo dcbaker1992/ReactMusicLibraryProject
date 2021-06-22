@@ -50,7 +50,7 @@ class SongCreator extends Component {
             <div className='form-box'>
                 <form onSubmit={this.handleSubmit}>
                 <br/>          
-                <h3>Add a Song</h3>
+                <h3>Add a New Song</h3>
                     <div>
                         <label>Title:  </label>
                         <input type='text' name='title' onChange={this.handleChange} value={this.state.title}/>

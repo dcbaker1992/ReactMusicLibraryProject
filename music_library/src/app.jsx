@@ -2,6 +2,8 @@ import react, {Component} from 'react'
 import axios from 'axios'
 import MusicTable from './components/MusicTable/musicTable';
 import SongCreator from './components/SongCreator/songCreator';
+import SearchBar from './components/SearchBar/searchBar';
+
 
 class App extends Component {
     state = {
@@ -50,6 +52,12 @@ class App extends Component {
             });
         }
     }
+
+    filterSongs=(songsToDisplay)=>{
+        this.setState({
+            currentSongs : songsToDisplay
+        })
+    }
     
     
     render(){
@@ -57,6 +65,7 @@ class App extends Component {
             <div>
                 <MusicTable songs={this.state.songs} deleteSongs={this.deleteSong}/>
                 <SongCreator newSong={this.newSong.bind(this)}/>
+                <SearchBar songs={this.state.songs} filterSongs={this.filterSongs}/>
             </div>
         );
     }
