@@ -5,8 +5,8 @@ function Delete (props) {
 
         return (
             <div>
-            <button onClick={() => props.deleteSongs(props.songid)}>Delete</button>
-        </div>
+                <button className="btn btn-danger" onClick={() => props.deleteSongs(props.songid)}>Delete</button>
+            </div>
         );
     }
 

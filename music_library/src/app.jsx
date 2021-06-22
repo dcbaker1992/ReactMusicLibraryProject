@@ -105,7 +105,7 @@ class App extends Component {
     
     render(){
         return(
-            <div>
+            <div className="bg-primary">
                 <SearchBar songs={this.state.songs} filterUpdate={this.filterUpdate}/>
                 <br />
                 <br />
