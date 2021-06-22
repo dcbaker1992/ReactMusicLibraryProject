@@ -1,5 +1,7 @@
 import React from 'react';
 import Delete from '../Delete/delete'
+import 'bootstrap/dist/css/bootstrap.min.css';
+
 
 function MusicTable(props){
     return (
@@ -14,10 +16,11 @@ function MusicTable(props){
                     <th>Album</th>
                     <th>Genre</th>
                     <th>Release Date</th>
+                    <th>Likes</th>
                 </tr>
                 </thead>
                 <tbody>
-                {props.songs.map((song, index) => (
+                    {props.songs.map((song, index) => (
                     <tr data-index={index} key={song.id}>
                         <th scope="row">{song.id}</th>
                         <td>{song.title}</td>
@@ -25,6 +28,7 @@ function MusicTable(props){
                         <td>{song.album}</td>
                         <td>{song.genre}</td>
                         <td>{song.release_date}</td>
+                        <td>{song.likes}</td>
                         <Delete songid={song.id} deleteSongs={props.deleteSongs} />
                     </tr>
                 ))}

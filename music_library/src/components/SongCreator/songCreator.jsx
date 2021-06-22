@@ -47,7 +47,7 @@ class SongCreator extends Component {
 
     render() {
         return (
-            <div className='form-box'>
+            <div className='form-box container'>
                 <form onSubmit={this.handleSubmit}>
                 <br/>          
                 <h3>Add a New Song</h3>

@@ -1,15 +1,41 @@
-import react, {Component} from 'react'
+import React, {Component} from 'react'
 import axios from 'axios'
 import MusicTable from './components/MusicTable/musicTable';
 import SongCreator from './components/SongCreator/songCreator';
 import SearchBar from './components/SearchBar/searchBar';
+import 'bootstrap/dist/css/bootstrap.min.css';
 
 
 class App extends Component {
-    state = {
-        songs: []
+    constructor(props){
+        super(props);
+        
+        this.startFilter = this.startFilter.bind(this)
+        this.filterUpdate = this.filterUpdate.bind(this)
+    
+    
     }
     
+    state = {
+        songs: [],
+        renderType:"table",
+        
+    }
+
+    startFilter(){
+        this.setState({renderType:'filter'})
+    }
+    //this function is called from the fiterTable component to redraw the page with the results of the filter we want to apply
+    filterUpdate(songs){
+        this.setState(
+            {
+                songs:songs,
+                renderType:"table"
+            }
+        )  
+    }
+    
+
     componentDidMount(){
         this.getAllSongs();
             
@@ -18,12 +44,13 @@ class App extends Component {
     async getAllSongs(){
         let response = await axios.get('http://127.0.0.1:8000/music/');
         this.setState({
-            songs: response.data
+            songs: response.data,
+        
         });
+        return response
     }
 
     deleteSong = async (id) => {
-        console.log(this.props)
         await axios.delete(`http://127.0.0.1:8000/music/${id}/`)
         let response = await this.getAllSongs()
         if(response === undefined){
@@ -37,6 +64,22 @@ class App extends Component {
             });
         }
     }
+
+    likeSong = async (id) => {
+        await axios.put(`http://127.0.0.1:8000/music/${id}/`)
+        let response = await this.getAllSongs()
+        if(response === undefined){
+            this.setState({
+
+            });
+        }
+        else{
+            this.setState({
+                songs: response.data
+            });
+        }
+    }
+
 
     newSong = async (song) => {
         await axios.post('http://127.0.0.1:8000/music/',song)
@@ -63,9 +106,10 @@ class App extends Component {
     render(){
         return(
             <div>
+                <SearchBar songs={this.state.songs} filterUpdate={this.filterUpdate}/>
+            
                 <MusicTable songs={this.state.songs} deleteSongs={this.deleteSong}/>
                 <SongCreator newSong={this.newSong.bind(this)}/>
-                <SearchBar songs={this.state.songs} filterSongs={this.filterSongs}/>
             </div>
         );
     }

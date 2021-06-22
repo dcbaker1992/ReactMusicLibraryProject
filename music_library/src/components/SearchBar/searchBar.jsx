@@ -3,40 +3,91 @@ import React, { Component } from 'react';
 class SearchBar extends Component {
     constructor(props){
         super(props);
-        this.state = {
-            title: '',
-            artist: '',
-            album: '',
-            genre: '',
-            release_date: '',
+        this.setState({filter:null})
+    }
+
+    filterReturn(event){
+        event.preventDefault()
+        let filterType = []
+        let filterValue = []
+        if(event.target.titleBox.checked){
+            filterType.push('title')
+            filterValue.push(event.target.title.value)
+
+        }
+        if(event.target.artistBox.checked){
+            filterType.push('artist')
+            filterValue.push(event.target.artist.value)
             
         }
+        if(event.target.albumBox.checked){
+            filterType.push('album')
+            filterValue.push(event.target.album.value)
+        }
+        if(event.target.dateBox.checked){
+            filterType.push('release_date')
+            filterValue.push(event.target.release_date.value)
+            
+        }
+        let result = this.props.songs
+        for(let i=0;i<filterType.length;i++){
+            result = this.songSearch(filterType[i],filterValue[i],result)
+        }
+
+        this.props.filterUpdate(result)
+
     }
 
-    handleChange = (event) => {
-        this.setState({
-            filter: event.target.value}, 
-            function(){
-                let songs = this.props.songs.filter(song => song.title.includes(this.state.filter) || 
-            song.artist.includes(this.state.filter) || 
-            song.album.includes(this.state.filter)  || 
-            song.genre.includes(this.state.filter) || 
-            song.release_date.includes(this.state.filter))
-            this.props.filterSongs(songs)
-        });
-    }
+    songSearch(filterType,filterValue,songs){
+        if (songs[0]===undefined){
+            songs=this.props.songs;
+            songs = songs.filter((song)=>{
+                if(song[filterType].toLowerCase()===filterValue.toLowerCase()){
+                    return true;
+                }
+                return false;
+            }
+            )
 
-    render() {
-            return(
-                <div className='searchbar'>
-                    <br />
-                    <br />
-                    <br />
-                    <h2>Search by Title, Artist, Album or Genre</h2>
-                    <input type='text' value={this.state.filter} onChange={this.handleChange}/>
-                </div>
-            );
+        }
+        else{
+            songs = songs.filter((song)=>{
+                if(song[filterType].toLowerCase()===filterValue.toLowerCase()){
+                    return true;
+                }
+                return false;
+            }
+            )
+        }
+        return songs;
+    }
+    
+    render(){
+        return(
+            <form className="container" onSubmit={(e) => this.filterReturn(e)}>
+            <h3>Filter By Title, Artist, Album or Release Date</h3><br/>
+            <div class="form-check">
+                <input class="form-check-input" type="checkbox" value="" id="titleBox" name='titleBox'></input>
+                <label>Title:<input type="text" name="title" className='btn btn-dark'/></label><br/>
+            </div>
+            <div class="form-check">
+                <input class="form-check-input" type="checkbox" value="" id="artistBox" name='artistBox'></input>
+                <label>Artist:<input type="text" name="artist" className='btn btn-dark'/></label><br/>
+            </div>
+            <div class="form-check">
+                <input class="form-check-input" type="checkbox" value="" id="albumBox" name='albumBox'></input>
+                <label>Album:<input type="text" name="album"   className='btn btn-dark'/></label><br/>
+            </div>
+            <div class="form-check">
+                <input class="form-check-input" type="checkbox" value="" id="dateBox" name='dateBox'></input>
+                <label>Release Date:<input type="Date" name="release_date"  className='btn btn-dark'/></label><br/>
+            </div>
+            <input type="submit" value="Submit" className='btn btn-dark'/>
+
+        </form>
+        )
+
+    
     }
 }
-
 export default SearchBar;
