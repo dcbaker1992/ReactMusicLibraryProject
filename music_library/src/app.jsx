@@ -25,7 +25,7 @@ class App extends Component {
     startFilter(){
         this.setState({renderType:'filter'})
     }
-    //this function is called from the fiterTable component to redraw the page with the results of the filter we want to apply
+
     filterUpdate(songs){
         this.setState(
             {
@@ -118,4 +118,4 @@ class App extends Component {
     }
 }
 
-export default App
+export default App;
